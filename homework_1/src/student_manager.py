@@ -122,10 +122,10 @@ def search_student():
 def modify_student():
     # 读取学号
     id = input("请输入学号：").strip()
-    # 检查学号是否为空
-    if not id:
-        print("请输入学号：")
-        return
+    # 检查学号是否合法
+    if not is_id_valid(id):
+        print("学号格式错误，重新输入：")
+        return False
     # 如果学生不存在
     if not is_id_exist(id):
         print("未找到该学号的学生记录")
@@ -133,6 +133,8 @@ def modify_student():
     
     # 如果学生存在
     # 读入学生列表
+    students = load_students()
+    # TODO：使用初学者方法吗？
     
 
 # TODO：删除学生记录
