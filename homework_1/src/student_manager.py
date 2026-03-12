@@ -79,3 +79,67 @@ def add_student():
     save_students(students)
     print("学生记录添加成功")
     return True
+
+# 查询学生记录
+def search_student():
+    # 用户选择模式
+    print("\n1. 按学号查询")
+    print("2. 按姓名查询")
+    choice = input("请输入您的选择 (1-2): ").strip()
+    
+    # 学号查询
+    if choice == '1':
+        id = input("请输入学号：").strip()
+        # 检查学号是否为空
+        if not id:
+            print("请输入学号：")
+            return
+
+        # TODO: 学号格式错误
+
+        # 在学生列表中寻找该学号学生
+        students = load_students()
+        found = False
+        for student in students:
+            if student[ID_INDEX] == id:
+                print("\n找到学生记录:")
+                print(f"学号: {student[ID_INDEX]}")
+                print(f"姓名: {student[NAME_INDEX]}")
+                print(f"专业: {student[MAJOR_INDEX]}")
+                print(f"年级: {student[GRADE_INDEX]}")
+                found = True
+                break
+        if not found:
+            print("未找到该学号的学生记录")
+        
+    # 姓名查询
+    elif choice == '2':
+        name = input("请输入姓名：").strip()
+        # 检查姓名是否为空
+        if not name:
+            print("请输入姓名：")
+            return
+        
+        # TODO：精确or模糊？
+        # TODO：查询所有模糊？
+        # 精确查询
+        students = load_students()
+        found = False
+        for student in students:
+            if student[NAME_INDEX] == name:
+                print("\n找到学生记录:")
+                print(f"学号: {student[ID_INDEX]}")
+                print(f"姓名: {student[NAME_INDEX]}")
+                print(f"专业: {student[MAJOR_INDEX]}")
+                print(f"年级: {student[GRADE_INDEX]}")
+                found = True
+                break
+        if not found:
+            print("未找到该姓名的学生记录")
+        
+        # TODO: 姓名格式错误
+    else:
+        print("输入错误，请重新选择")
+    
+# TODO: 实现修改学生信息函数
+# def modify_student():
