@@ -8,13 +8,13 @@ from constants import (
     MAJOR_INDEX,
     GRADE_INDEX,
 )
-from utils import format_student_record, parse_student_record, print_student_record
+from utils import format_student_record, parse_student_record, print_student_record, print_list
 
 # 加载学生记录
 def load_students():
-    students = [];
+    students = []
     try:
-        with open(DATA_FILE, 'r', encoding='utf-8') as file:
+        with open(DATA_FILE, "r", encoding="utf-8") as file:
             for line in file:
                 if line.strip():
                     students.append(parse_student_record(line))
@@ -23,11 +23,13 @@ def load_students():
         pass
     return students
 
+
 # 学生记录写入到文件
 def save_students(students):
-    with open (DATA_FILE, 'w', encoding='utf-8') as file:
+    with open(DATA_FILE, "w", encoding="utf-8") as file:
         for student in students:
-            file.write(format_student_record(student) + '\n')
+            file.write(format_student_record(student) + "\n")
+
 
 # 检查学号是否已经存在
 def is_id_exist(id):
@@ -36,6 +38,7 @@ def is_id_exist(id):
         if student[ID_INDEX] == id:
             return True
     return False
+
 
 # 添加学生记录
 def add_student():
@@ -66,10 +69,10 @@ def add_student():
         return False
     # 输入年级
     grade = input("请输入年级：").strip()
-    if not grade.isdigit() or len(grade)!=4:
+    if not grade.isdigit() or len(grade) != 4:
         print("年级必须是4位数字年份")
         return False
-    
+
     # 构建一条学生记录
     student = [id, name, major, grade]
 
@@ -80,15 +83,16 @@ def add_student():
     print("学生记录添加成功")
     return True
 
+
 # 查询学生记录
 def search_student():
     # 用户选择模式
     print("\n1. 按学号查询")
     print("2. 按姓名查询")
     choice = input("请输入您的选择 (1-2): ").strip()
-    
+
     # 学号查询
-    if choice == '1':
+    if choice == "1":
         id = input("请输入学号：").strip()
         # 检查学号是否为空
         if not id:
@@ -112,15 +116,15 @@ def search_student():
                 break
         if not found:
             print("未找到该学号的学生记录")
-        
+
     # 姓名查询
-    elif choice == '2':
+    elif choice == "2":
         name = input("请输入姓名：").strip()
         # 检查姓名是否为空
         if not name:
             print("请输入姓名：")
             return
-        
+
         # TODO：精确or模糊？
         # TODO：查询所有模糊？
         # 精确查询
@@ -138,16 +142,20 @@ def search_student():
                 break
         if not found:
             print("未找到该姓名的学生记录")
-        
+
         # TODO: 姓名格式错误
     else:
         print("输入不合法，请重新选择")
-    
+
+
 # TODO: 实现修改学生信息函数
 # def modify_student():
 
 # TODO：删除学生记录
 # def delete_student():
 
-# TODO：显示所有学生记录
-# def show_all_students():
+
+# 显示所有学生记录
+def show_all_students():
+    students = load_students()
+    print_list(students)
