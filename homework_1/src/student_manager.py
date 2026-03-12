@@ -8,7 +8,7 @@ from constants import (
     MAJOR_INDEX,
     GRADE_INDEX,
 )
-from utils import format_student_record, parse_student_record
+from utils import format_student_record, parse_student_record, print_student_record
 
 # 加载学生记录
 def load_students():
@@ -102,11 +102,12 @@ def search_student():
         found = False
         for student in students:
             if student[ID_INDEX] == id:
-                print("\n找到学生记录:")
-                print(f"学号: {student[ID_INDEX]}")
-                print(f"姓名: {student[NAME_INDEX]}")
-                print(f"专业: {student[MAJOR_INDEX]}")
-                print(f"年级: {student[GRADE_INDEX]}")
+                # print("\n找到学生记录:")
+                # print(f"学号: {student[ID_INDEX]}")
+                # print(f"姓名: {student[NAME_INDEX]}")
+                # print(f"专业: {student[MAJOR_INDEX]}")
+                # print(f"年级: {student[GRADE_INDEX]}")
+                print_student_record(student)
                 found = True
                 break
         if not found:
@@ -127,11 +128,12 @@ def search_student():
         found = False
         for student in students:
             if student[NAME_INDEX] == name:
-                print("\n找到学生记录:")
-                print(f"学号: {student[ID_INDEX]}")
-                print(f"姓名: {student[NAME_INDEX]}")
-                print(f"专业: {student[MAJOR_INDEX]}")
-                print(f"年级: {student[GRADE_INDEX]}")
+                # print("\n找到学生记录:")
+                # print(f"学号: {student[ID_INDEX]}")
+                # print(f"姓名: {student[NAME_INDEX]}")
+                # print(f"专业: {student[MAJOR_INDEX]}")
+                # print(f"年级: {student[GRADE_INDEX]}")
+                print_student_record(student)
                 found = True
                 break
         if not found:
@@ -139,7 +141,13 @@ def search_student():
         
         # TODO: 姓名格式错误
     else:
-        print("输入错误，请重新选择")
+        print("输入不合法，请重新选择")
     
 # TODO: 实现修改学生信息函数
 # def modify_student():
+
+# TODO：删除学生记录
+# def delete_student():
+
+# TODO：显示所有学生记录
+# def show_all_students():
