@@ -8,53 +8,26 @@ from constants import (
     MAJOR_INDEX,
     GRADE_INDEX,
 )
-from utils import format_student_record, parse_student_record, print_student_record, print_list
-
-# 加载学生记录
-def load_students():
-    students = []
-    try:
-        with open(DATA_FILE, "r", encoding="utf-8") as file:
-            for line in file:
-                if line.strip():
-                    students.append(parse_student_record(line))
-    except FileNotFoundError:
-        # 文件不存在，返回空列表
-        pass
-    return students
-
-
-# 学生记录写入到文件
-def save_students(students):
-    with open(DATA_FILE, "w", encoding="utf-8") as file:
-        for student in students:
-            file.write(format_student_record(student) + "\n")
-
-
-# 检查学号是否已经存在
-def is_id_exist(id):
-    students = load_students()
-    for student in students:
-        if student[ID_INDEX] == id:
-            return True
-    return False
-
+from utils import (
+    print_student_record,
+    print_list,
+    is_id_valid,
+    is_id_exist,
+    load_students,
+    save_students,
+    is_grade_valid,
+)
 
 # 添加学生记录
 def add_student():
     # 输入学号
     id = input("请输入学号：").strip()
-    # 检查学号是否为空
-    if not id:
-        print("学号不能为空")
+    # 检查学号是否合法
+    if not is_id_valid(id):
         return False
     # 检查学号是否重复
     if is_id_exist(id):
         print("学号已存在")
-        return False
-    # 检查学号格式
-    if not id.isdigit():
-        print("学号必须是数字")
         return False
 
     # 输入姓名
@@ -69,13 +42,12 @@ def add_student():
         return False
     # 输入年级
     grade = input("请输入年级：").strip()
-    if not grade.isdigit() or len(grade) != 4:
+    if not is_grade_valid(grade):
         print("年级必须是4位数字年份")
         return False
 
-    # 构建一条学生记录
+    # 新增一条学生记录
     student = [id, name, major, grade]
-
     # 保存到学生列表
     students = load_students()
     students.append(student)
@@ -94,12 +66,10 @@ def search_student():
     # 学号查询
     if choice == "1":
         id = input("请输入学号：").strip()
-        # 检查学号是否为空
-        if not id:
-            print("请输入学号：")
+        # 检查学号是否合法
+        if not is_id_valid(id):
+            print("学号格式错误，重新输入：")
             return
-
-        # TODO: 学号格式错误
 
         # 在学生列表中寻找该学号学生
         students = load_students()
@@ -149,7 +119,21 @@ def search_student():
 
 
 # TODO: 实现修改学生信息函数
-# def modify_student():
+def modify_student():
+    # 读取学号
+    id = input("请输入学号：").strip()
+    # 检查学号是否为空
+    if not id:
+        print("请输入学号：")
+        return
+    # 如果学生不存在
+    if not is_id_exist(id):
+        print("未找到该学号的学生记录")
+        return
+    
+    # 如果学生存在
+    # 读入学生列表
+    
 
 # TODO：删除学生记录
 # def delete_student():
