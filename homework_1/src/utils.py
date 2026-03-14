@@ -54,7 +54,7 @@ def is_id_exist(id):
 
 # 检查年级是否合法
 def is_grade_valid(grade):
-    # 年级为空或非4位数字不合法
+    # 年级为空或非4位数字
     if not grade:
         print("年级不能为空")
         return False

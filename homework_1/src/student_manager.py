@@ -42,7 +42,7 @@ def add_student():
         return False
     # 输入年级
     grade = input("请输入年级：").strip()
-    if not is_grade_valid(grade):
+    if not is_grade_valid(grade):   # 为空或不是4位数字年份
         print("年级必须是4位数字年份")
         return False
 
@@ -102,11 +102,6 @@ def search_student():
         found = False
         for student in students:
             if student[NAME_INDEX] == name:
-                # print("\n找到学生记录:")
-                # print(f"学号: {student[ID_INDEX]}")
-                # print(f"姓名: {student[NAME_INDEX]}")
-                # print(f"专业: {student[MAJOR_INDEX]}")
-                # print(f"年级: {student[GRADE_INDEX]}")
                 print_student_record(student)
                 found = True
                 break
@@ -121,7 +116,7 @@ def search_student():
 # TODO: 实现修改学生信息函数
 def modify_student():
     # 读取学号
-    id = input("请输入学号：").strip()
+    id = input("请输入待修改学生的学号：").strip()
     # 检查学号是否合法
     if not is_id_valid(id):
         print("学号格式错误，重新输入：")
@@ -131,15 +126,59 @@ def modify_student():
         print("未找到该学号的学生记录")
         return
     
+    # 将文件全部读入内存，修改对应记录后，将所有数据重新写回文件
     # 如果学生存在
-    # 读入学生列表
+    # 读入学生列表进入内存
     students = load_students()
-    # TODO：使用初学者方法吗？
-    
+    # TODO：使用初学者方法
+    # 遍历学生列表，找到对应学号的学生
+    for student in students:
+        if student[ID_INDEX] == id:
+            # 输入新的专业或年级
+            major = input("请输入新的专业：").strip()
+            if not major:
+                print("专业不能为空")
+                return False
+            grade = input("请输入新的年级：").strip()
+            if not is_grade_valid(grade):   # 为空或不是4位数字年份
+                print("年级必须是4位数字年份")
+                return False
+            
+            # 更新学生记录
+            student[MAJOR_INDEX] = major
+            student[GRADE_INDEX] = grade
+            print("学生记录修改成功")
+
+            # 保存到学生列表
+            save_students(students)
+            return True
+    # TODO：写回txt文件
+
+    # 如果遍历完所有学生都没有找到对应学号的学生
+    print("未找到该学号的学生记录")
+    return False
+
 
 # TODO：删除学生记录
-# def delete_student():
+def delete_student():
+    # 读取学号
+    id = input("请输入待删除学生的学号：").strip()
+    # 检查学号是否合法
+    if not is_id_valid(id):
+        print("学号格式错误，重新输入：")
+        return False
+    # 如果学生不存在
+    if not is_id_exist(id):
+        print("未找到该学号的学生记录")
+        return
 
+    # 创建临时文件 → 拷贝除待删除记录外的数据 → 用临时文件覆盖原文件
+    temp_file = "data/students_temp.txt"
+    # 拷贝除待删除学生记录外的数据
+    with open("data/students.txt", "r") as f_in, open(temp_file, "w") as f_out:
+        for line in f_in:
+            if line.strip().split(SEPARATOR)[ID_INDEX] != id:
+                f_out.write(line)
 
 # 显示所有学生记录
 def show_all_students():
