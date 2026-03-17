@@ -1,6 +1,5 @@
 # 学生管理函数
 import time
-
 from constants import (
     DATA_FILE,
     DELIMITER,
@@ -22,60 +21,63 @@ from utils import (
 # 添加学生记录
 def add_student():
     # 输入学号
-    id = input("请输入学号：").strip()
+    id = input("\n请输入学号：").strip()
     # 检查学号是否合法
     if not is_id_valid(id):
-        time.sleep(2)
+        print("\n学号格式错误")
+        input("\n按任意键返回...")
         return False
     # 检查学号是否重复
     if is_id_exist(id):
-        print("学号已存在")
-        time.sleep(2)
+        print("\n学号已存在")
+        input("\n按任意键返回...")
         return False
 
     # 输入姓名
-    name = input("请输入姓名：").strip()
+    name = input("\n请输入姓名：").strip()
     if not name:
         print("姓名不能为空")
-        input("按任意键返回...")
+        input("\n按任意键返回...")
         return False
     # 输入专业
-    major = input("请输入专业：").strip()
+    major = input("\n请输入专业：").strip()
     if not major:
         print("专业不能为空")
-        input("按任意键返回...")
+        input("\n按任意键返回...")
         return False
     # 输入年级
-    grade = input("请输入年级：").strip()
-    if not is_grade_valid(grade):   # 为空或不是4位数字年份
+    grade = input("\n请输入年级：").strip()
+    if not is_grade_valid(grade):
         print("年级必须是4位数字年份")
-        input("按任意键返回...")
+        input("\n按任意键返回...")
         return False
 
     # 新增一条学生记录
+    # TODO: 报告里写是什么类型
     student = [id, name, major, grade]
     # 保存到学生列表
     students = load_students()
     students.append(student)
     save_students(students)
     print("学生记录添加成功")
-    input("按任意键返回...")
+    input("\n按任意键返回...")
     return True
 
 # 查询学生记录
 def search_student():
     # 用户选择模式
     print("\n1. 按学号查询")
-    print("2. 按姓名查询")
-    choice = input("请输入您的选择 (1-2): ").strip()
+    print("2. 按姓名精确查询")
+    print("3. 按姓名模糊查询")
+    choice = input("请输入您的选择 (1-3): ").strip()
 
     # 学号查询
     if choice == "1":
-        id = input("请输入学号：").strip()
+        id = input("\n请输入学号：").strip()
         # 检查学号是否合法
         if not is_id_valid(id):
-            print("学号格式错误，重新输入：")
-            input("按任意键返回...")
+            print("\n学号格式错误")
+            input("\n按任意键返回...")
             return False
         
         # 在学生列表中寻找该学号学生
@@ -83,116 +85,134 @@ def search_student():
         found = False
         for student in students:
             if student[ID_INDEX] == id:
-                # print("\n找到学生记录:")
-                # print(f"学号: {student[ID_INDEX]}")
-                # print(f"姓名: {student[NAME_INDEX]}")
-                # print(f"专业: {student[MAJOR_INDEX]}")
-                # print(f"年级: {student[GRADE_INDEX]}")
+                print("\n找到该学号的学生记录：\n")
                 print_student_record(student)
-                input("按任意键返回...")
+                input("\n按任意键返回...")
                 found = True
                 break
         if not found:
-            print("未找到该学号的学生记录")
-            input("按任意键返回...")
+            print("\n未找到该学号的学生记录")
+            input("\n按任意键返回...")
             return False
 
     # 姓名查询
     elif choice == "2":
-        name = input("请输入姓名：").strip()
+        name = input("\n请输入姓名：").strip()
         # 检查姓名是否为空
         if not name:
-            print("姓名不能为空")
-            input("按任意键返回...")
+            print("\n姓名不能为空")
+            input("\n按任意键返回...")
             return False
-
-        # TODO：精确or模糊？
+        
         # TODO：查询所有模糊？
         # 精确查询
         students = load_students()
         found = False
+        # 如果找到，一次性打印所有姓名为name的记录
         for student in students:
             if student[NAME_INDEX] == name:
+                print("\n找到该姓名的学生记录：\n")
                 print_student_record(student)
+                input("\n按任意键返回...")
                 found = True
                 break
         if not found:
-            print("未找到该姓名的学生记录")
-            input("按任意键返回...")
+            print("\n未找到该姓名的学生记录")
+            input("\n按任意键返回...")
             return False
 
-        # TODO: 姓名格式错误
+    # TODO：模糊查询
+    elif choice == "3":
+        name = input("\n请输入姓名：").strip()
+        # 检查姓名是否为空
+        if not name:
+            print("\n姓名不能为空")
+            input("\n按任意键返回...")
+            return False
+        
+        # 模糊查询
+        students = load_students()
+        found = False
+        for student in students:
+            if name in student[NAME_INDEX]:
+                print("\n找到该姓名的学生记录：\n")
+                print_student_record(student)
+                input("\n按任意键返回...")
+                found = True
+                
+        if not found:
+            print("\n未找到该姓名的学生记录")
+            input("\n按任意键返回...")
+            return False
+        
     else:
-        print("输入不合法，请重新选择")
-        input("按任意键返回...")
+        print("\n输入不合法，请重新选择")
+        input("\n按任意键返回...")
         return False
 
 # TODO: 实现修改学生信息函数
 def modify_student():
     # 读取学号
-    id = input("请输入待修改学生的学号：").strip()
+    id = input("\n请输入待修改学生的学号：").strip()
     # 检查学号是否合法
     if not is_id_valid(id):
-        print("学号格式错误，重新输入：")
-        input("按任意键返回...")
+        print("\n学号格式错误，重新输入：")
+        input("\n按任意键返回...")
         return False
     # 如果学生不存在
     if not is_id_exist(id):
-        print("未找到该学号的学生记录")
-        input("按任意键返回...")
-        return
+        print("\n未找到该学号的学生记录")
+        input("\n按任意键返回...")
+        return False
     
-    # 将文件全部读入内存，修改对应记录后，将所有数据重新写回文件
     # 如果学生存在
     # 读入学生列表进入内存
     students = load_students()
-    # TODO：使用初学者方法
     # 遍历学生列表，找到对应学号的学生
     for student in students:
         if student[ID_INDEX] == id:
             # 输入新的专业或年级
-            major = input("请输入新的专业：").strip()
+            major = input("\n请输入新的专业：").strip()
             if not major:
-                print("专业不能为空")
-                input("按任意键返回...")
+                print("\n专业不能为空")
+                input("\n按任意键返回...")
                 return False
             
-            grade = input("请输入新的年级：").strip()
+            grade = input("\n请输入新的年级：").strip()
             if not is_grade_valid(grade):
-                print("年级必须是4位数字年份")
-                input("按任意键返回...")
+                print("\n年级必须是4位数字年份")
+                input("\n按任意键返回...")
                 return False
             
             # 更新学生记录
             student[MAJOR_INDEX] = major
             student[GRADE_INDEX] = grade
-            print("学生记录修改成功")
+            print("\n学生记录修改成功")
 
             # 保存到学生列表并覆盖回txt文件
-            # TODO：是否覆盖？
             save_students(students)
-            input("按任意键返回...")
+            input("\n按任意键返回...")
             return True
 
     # 如果遍历完所有学生都没有找到对应学号的学生
-    print("未找到该学号的学生记录")
-    input("按任意键返回...")
+    print("\n未找到该学号的学生记录")
+    input("\n按任意键返回...")
     return False
 
 
 # TODO：删除学生记录
 def delete_student():
     # 读取学号
-    id = input("请输入待删除学生的学号：").strip()
+    id = input("\n请输入待删除学生的学号：").strip()
     # 检查学号是否合法
     if not is_id_valid(id):
-        print("学号格式错误")
-        input("按任意键返回...")
+        print("\n学号格式错误")
+        input("\n按任意键返回...")
         return False
     # 如果学生不存在
     if not is_id_exist(id):
-        print("未找到该学号的学生记录")
-        input("按任意键返回...")
+        print("\n未找到该学号的学生记录")
+        input("\n按任意键返回...")
         return
 
     # TODO：封装到utils里去
@@ -208,5 +228,5 @@ def delete_student():
 def show_all_students():
     students = load_students()
     print_list(students)
-    input("按任意键返回...")
+    input("\n按任意键返回...")
     return True

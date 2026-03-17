@@ -3,7 +3,6 @@
 from constants import DELIMITER, ID_INDEX, NAME_INDEX, MAJOR_INDEX, GRADE_INDEX, DATA_FILE
 
 
-
 # txt文件读写函数
 # 解析学生记录行
 def parse_student_record(line):
@@ -27,12 +26,10 @@ def load_students():
     return students
 
 # 学生记录重新保存到文件
-# TODO：是否覆盖？
 def save_students(students):
     with open(DATA_FILE, "w", encoding="utf-8") as file:
         for student in students:
             file.write(format_student_record(student) + "\n")
-
 
 
 # 输入合法性检查函数
@@ -76,18 +73,16 @@ def print_menu():
     print("4. 删除学生记录")
     print("5. 显示所有记录")
     print("0. 退出系统")
-    print("==================")
+    print("====================")
 
 # 打印单条学生记录
 def print_student_record(student):
-    print(f"学号: {student[ID_INDEX]}")
-    print(f"姓名: {student[NAME_INDEX]}")
-    print(f"专业: {student[MAJOR_INDEX]}")
-    print(f"年级: {student[GRADE_INDEX]}")
+    print(f"{'学号: '}{student[ID_INDEX]:<10}{'姓名: '}{student[NAME_INDEX]:<8}{'专业: '}{student[MAJOR_INDEX]:<10}{'年级:'}{student[GRADE_INDEX]}")
 
 # 表格形式打印所有学生记录
+# TODO：左对齐
 def print_list(students):
-    print("\n=== 所有学生记录 ===")
+    print("\n所有学生记录:")
     print(f"{'学号':<10}{'姓名':<10}{'专业':<10}{'年级':<10}")
     print("="*40)
     for student in students:
