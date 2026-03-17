@@ -26,11 +26,14 @@ def load_students():
         pass
     return students
 
-# 学生记录写入到文件
+# 学生记录重新保存到文件
+# TODO：是否覆盖？
 def save_students(students):
     with open(DATA_FILE, "w", encoding="utf-8") as file:
         for student in students:
             file.write(format_student_record(student) + "\n")
+
+
 
 # 输入合法性检查函数
 # 检查学号是否合法

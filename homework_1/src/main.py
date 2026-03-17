@@ -22,7 +22,7 @@ def main():
 
         # 处理用户选择
         if choice == "0":
-            print("退出系统，再见！")
+            print("系统已退出，再见！")
             break
         elif choice == "1":
             add_student()
