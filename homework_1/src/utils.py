@@ -80,11 +80,13 @@ def print_student_record(student):
     print(f"{'学号: '}{student[ID_INDEX]:<10}{'姓名: '}{student[NAME_INDEX]:<8}{'专业: '}{student[MAJOR_INDEX]:<10}{'年级:'}{student[GRADE_INDEX]}")
 
 # 表格形式打印所有学生记录
-# TODO：左对齐
 def print_list(students):
     print("\n所有学生记录:")
     print(f"{'学号':<10}{'姓名':<10}{'专业':<10}{'年级':<10}")
-    print("="*40)
-    for student in students:
-        print(f"{student[ID_INDEX]:<10}{student[NAME_INDEX]:<10}{student[MAJOR_INDEX]:<10}{student[GRADE_INDEX]:<10}")
-    print("="*40)
+    print("=" * 40)
+    if not students:
+        print("\n暂无学生记录")
+    else:
+        for student in students:
+            print(f"{student[ID_INDEX]:<10}{student[NAME_INDEX]:<10}{student[MAJOR_INDEX]:<10}{student[GRADE_INDEX]:<10}")
+    print("=" * 40)
