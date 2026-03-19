@@ -7,7 +7,7 @@ from student_manager import (
     delete_student,
     show_all_students,
 )
-import os   # TODO: 导入os模块，用于清屏操作
+import os   # 导入os模块，用于清屏操作
 
 def main():
     while True:
