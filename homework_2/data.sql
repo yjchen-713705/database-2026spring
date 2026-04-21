@@ -1,4 +1,4 @@
--- ========== 清理旧表 ==========
+-- ========== 清理旧表中所有数据 ==========
 TRUNCATE TABLE enrollments,
 courses,
 students,
@@ -71,4 +71,4 @@ VALUES -- Tom
     (8, 8, 80),
     -- Chris
     (9, 6, 75);
--- sophia不选课
+    -- sophia不选课
