@@ -18,7 +18,7 @@ CREATE TABLE students (
 -- ========== courses ==========
 CREATE TABLE courses (
     id SERIAL PRIMARY KEY,
-    course_name TEXT NOT NULL,
+    name TEXT NOT NULL,
     teacher_id INT,
     credits INT,
     FOREIGN KEY (teacher_id) REFERENCES teachers(id)
