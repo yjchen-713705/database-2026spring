@@ -10,3 +10,4 @@ git push origin main
 
 ## 已完成实验
 实验1: python数据库设计
+实验2: pgsql初步
