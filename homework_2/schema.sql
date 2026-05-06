@@ -1,4 +1,4 @@
--- ========== 清理旧表（防止重复运行报错） ==========
+-- ========== 清理旧表 ==========
 DROP TABLE IF EXISTS enrollments;
 DROP TABLE IF EXISTS courses;
 DROP TABLE IF EXISTS students;
@@ -23,7 +23,7 @@ CREATE TABLE courses (
     credits INT,
     FOREIGN KEY (teacher_id) REFERENCES teachers(id)
 );
--- ========== enrollments（核心关系表） ==========
+-- ========== enrollments ==========
 CREATE TABLE enrollments (
     id SERIAL PRIMARY KEY,
     student_id INT,
